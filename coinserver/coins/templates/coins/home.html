@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container custom-navbar">
+  <div class="custom-navbar-brand d-flex align-items-center">
+    <img
+      src="{% static 'coins/images/logo.png' %}"
+      alt="logo"
+      class="site-logo"
+    />
+    <h2 class="ml-2 mb-0">Coin.Xchange</h2>
+  </div>
+  <div class="table-header d-flex">
+    <div class="col-4">Name</div>
+    <div class="col-2">Price</div>
+    <div class="col-2">Market cap</div>
+    <div class="col-2">Volume</div>
+    <div class="col-2">Change (24Hrs)</div>
+  </div>
+</div>
+{% for coin in coins_list %}
+<a id="card" href="http://127.0.0.1:8000/detail/{{ coin.id }}">
+  <div class="container">
+    <div class="coin-item row align-items-center">
+      <div class="col-4 d-flex align-items-center">
+        <img
+          src="{{ coin.image }}"
+          alt="{{ coin.image }}"
+          class="symbol mr-2"
+        />
+        <div>
+          <div class="name-tag">{{coin.name}}</div>
+          <div class="symbol-tag">{{coin.symbol}}</div>
+        </div>
+      </div>
+      <div class="col-2 price-item">{{coin.priceUsd}}</div>
+      <div class="col-2 price-item">{{coin.marketCapUsd}}</div>
+      <div class="col-2 price-item">{{coin.volumeUsd24Hr}}</div>
+      {% if coin.changePercent24Hr < 0 %}
+      <div class="col-2 change-item decrease">
+        {{ coin.changePercent24Hr }}%
+      </div>
+      {% else %}
+      <div class="col-2 change-item increase">
+        +{{ coin.changePercent24Hr }}%
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</a>
+{% endfor %} {% endblock %}

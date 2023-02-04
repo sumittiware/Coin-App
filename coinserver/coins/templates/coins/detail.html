@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container custom-navbar">
+  <div class="custom-navbar-brand d-flex align-items-center">
+    <img
+      src="{% static 'coins/images/logo.png' %}"
+      alt="logo"
+      class="site-logo"
+    />
+    <h2 class="ml-2 mb-0">Coin.Xchange</h2>
+  </div>
+</div>
+<div class="container">
+  <div class="container coin-item row align-items-center d-flex">
+    <div class="col-2">
+      <h1>{{ coindata.rank }}</h1>
+      <p>RANK</p>
+    </div>
+    <div class="col-5">
+      <h3>{{ coindata.name }} ({{ coindata.symbol }})</h3>
+      <div class="row align-items-center justify-content-start">
+        <div class="col-4 price-item-detail">{{ coindata.priceUsd }}</div>
+        {% if coindata.changePercent24Hr < 0 %}
+        <div class="col-8 change-item decrease">
+          {{ coindata.changePercent24Hr }}%
+        </div>
+        {% else %}
+        <div class="col-8 change-item increase">
+          +{{ coindata.changePercent24Hr }}%
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="coin-stats col-5 row">
+      <div class="col-4 justify-content-center">
+        <h6>Market</h6>
+        <h5>{{ coindata.rank }}</h5>
+      </div>
+      <div class="col-4 justify-content-center">
+        <h6>Volume (24Hrs)</h6>
+        <h5>{{ coindata.volumeUsd24Hr }}</h5>
+      </div>
+      <div class="col-4 justify-content-center">
+        <h6>Supply</h6>
+        <h5>{{ coindata.supply }}</h5>
+      </div>
+    </div>
+  </div>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ timestamps|safe }},
+      datasets: [{
+        label: '$',
+        data: {{ prices|safe }},
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}
