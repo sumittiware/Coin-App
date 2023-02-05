@@ -17,7 +17,7 @@
   </div>
 </div>
 {% for coin in coins_list %}
-<a id="card" href="http://127.0.0.1:8000/detail/{{ coin.id }}">
+<a id="card" href="{{ coin.detailUrl }}">
   <div class="container">
     <div class="coin-item row align-items-center">
       <div class="col-4 d-flex align-items-center">

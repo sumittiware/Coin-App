@@ -2,6 +2,7 @@ from _decimal import Decimal
 
 from django.shortcuts import render
 import requests
+from django.urls import reverse
 
 from .utils import format_currency
 
@@ -16,6 +17,7 @@ def home(request):
         coin['marketCapUsd'] = format_currency(coin['marketCapUsd'])
         coin['volumeUsd24Hr'] = format_currency(coin['volumeUsd24Hr'], is_currency=False)
         coin['changePercent24Hr'] = round(Decimal(coin['changePercent24Hr']), 3)
+        coin['detailUrl'] = reverse("detail", kwargs={'coin_id': coin['id']})
 
     return render(request, 'coins/home.html', {
         'coins_list': coins_data
